@@ -15,9 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.GraphicsMode;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.ParticlesMode;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -39,9 +37,8 @@ public class ClearViewClient implements ClientModInitializer {
     private static KeyBinding toggleHud;
     private static Snapshot original;
 
-    private record Snapshot(int view, int sim, double entityScale, ParticlesMode particles,
-                            GraphicsMode graphics, int biomeBlend, CloudRenderMode clouds,
-                            boolean shadows, int maxFps, boolean vsync) {}
+    private record Snapshot(int view, int sim, double entityScale, int biomeBlend,
+                            CloudRenderMode clouds, boolean shadows, int maxFps, boolean vsync) {}
 
     @Override
     public void onInitializeClient() {
@@ -104,16 +101,13 @@ public class ClearViewClient implements ClientModInitializer {
         if (original == null) {
             original = new Snapshot(
                     o.getViewDistance().getValue(), o.getSimulationDistance().getValue(),
-                    o.getEntityDistanceScaling().getValue(), o.getParticles().getValue(),
-                    o.getGraphicsMode().getValue(), o.getBiomeBlendRadius().getValue(),
+                    o.getEntityDistanceScaling().getValue(), o.getBiomeBlendRadius().getValue(),
                     o.getCloudRenderMode().getValue(), o.getEntityShadows().getValue(),
                     o.getMaxFps().getValue(), o.getEnableVsync().getValue());
         }
         o.getViewDistance().setValue(Math.min(original.view(), 8));
         o.getSimulationDistance().setValue(Math.min(original.sim(), 6));
         o.getEntityDistanceScaling().setValue(0.75);
-        o.getParticles().setValue(ParticlesMode.MINIMAL);
-        o.getGraphicsMode().setValue(GraphicsMode.FAST);
         o.getBiomeBlendRadius().setValue(1);
         o.getCloudRenderMode().setValue(CloudRenderMode.OFF);
         o.getEntityShadows().setValue(false);
@@ -128,8 +122,6 @@ public class ClearViewClient implements ClientModInitializer {
         o.getViewDistance().setValue(original.view());
         o.getSimulationDistance().setValue(original.sim());
         o.getEntityDistanceScaling().setValue(original.entityScale());
-        o.getParticles().setValue(original.particles());
-        o.getGraphicsMode().setValue(original.graphics());
         o.getBiomeBlendRadius().setValue(original.biomeBlend());
         o.getCloudRenderMode().setValue(original.clouds());
         o.getEntityShadows().setValue(original.shadows());
