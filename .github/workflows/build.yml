@@ -14,21 +14,25 @@ jobs:
       - name: Arrange files and make totems
         run: |
           python - <<'EOF'
-          # Moves the flat uploaded files into the folders the build needs, and makes the totem textures.
-          import os, shutil
+          # Sorts the flat uploaded files into the folders the build needs, and makes the totem textures.
+          import os, re, shutil
           from PIL import Image
 
-          J = "src/main/java/com/clearview"
           R = "src/main/resources"
-          MOVES = {
-              "ClearViewClient.java": J, "Config.java": J, "MenuStyle.java": J,
-              "SwingMath.java": J, "SwingStyle.java": J,
-              "ClearSettingsScreen.java": J + "/gui", "ClearTitleScreen.java": J + "/gui",
-              "HeldItemRendererMixin.java": J + "/mixin",
-              "clearview.mixins.json": R, "fabric.mod.json": R,
+          for name in sorted(os.listdir(".")):
+              if name.endswith(".java"):
+                  text = open(name, encoding="utf-8").read()
+                  pkg = re.search(r"^package\s+([\w.]+);", text, re.M).group(1)
+                  dest = "src/main/java/" + pkg.replace(".", "/")
+                  os.makedirs(dest, exist_ok=True)
+                  shutil.move(name, os.path.join(dest, name))
+
+          RES = {
+              "clearview.mixins.json": R,
+              "fabric.mod.json": R,
               "en_us.json": R + "/assets/clearview/lang",
           }
-          for name, dest in MOVES.items():
+          for name, dest in RES.items():
               if os.path.exists(name):
                   os.makedirs(dest, exist_ok=True)
                   shutil.move(name, os.path.join(dest, name))
