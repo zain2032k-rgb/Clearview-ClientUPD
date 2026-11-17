@@ -3,7 +3,7 @@
   "id": "clearview",
   "version": "${version}",
   "name": "ClearView Client",
-  "description": "FPS boost, custom swing animations, small held items, custom totems and a custom main menu.",
+  "description": "FPS boost, swing animations, small items, creamy keys, blossom loading screens, totems and a custom menu.",
   "authors": ["You"],
   "license": "MIT",
   "environment": "client",

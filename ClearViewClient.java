@@ -61,6 +61,7 @@ public class ClearViewClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             if (Config.fpsBoost) applyBoost(client);
+            CreamyKeys.install(client);
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

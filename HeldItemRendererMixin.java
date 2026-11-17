@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /*
- * Method names below are the runtime (intermediary) names for Minecraft 1.21.11:
- *   method_65816 = the first-person swing transform (swingProgress, matrices, side, arm)
- *   method_3224  = the equip offset (matrices, arm, equipProgress)
+ * Runtime (intermediary) names for Minecraft 1.21.11:
+ *   method_65816 = swingArm(float swingProgress, MatrixStack, int, Arm)
+ *   method_3224  = applyEquipOffset(MatrixStack, Arm, float equipProgress)
  */
 @Mixin(HeldItemRenderer.class)
 public abstract class HeldItemRendererMixin {

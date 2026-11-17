@@ -9,9 +9,9 @@ public final class SwingMath {
     private static final float PI = (float) Math.PI;
 
     public static void apply(SwingStyle style, float p, MatrixStack m, int side, float k) {
-        float sq = MathHelper.sin(MathHelper.sqrt(p) * PI);   // quick start, soft end (vanilla feel)
-        float lin = MathHelper.sin(p * PI);                    // symmetric 0 -> 1 -> 0
-        float ease = p * p * (3f - 2f * p);                    // smoothstep 0 -> 1
+        float sq = MathHelper.sin(MathHelper.sqrt(p) * PI);
+        float lin = MathHelper.sin(p * PI);
+        float ease = p * p * (3f - 2f * p);
 
         switch (style) {
             case SMOOTH -> {

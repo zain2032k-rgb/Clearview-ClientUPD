@@ -5,7 +5,10 @@ public enum SwingStyle {
     SPIN("Spin"), SWIRL("Swirl"), CHOP("Chop");
 
     public final String label;
-    SwingStyle(String label) { this.label = label; }
+
+    SwingStyle(String label) {
+        this.label = label;
+    }
 
     public SwingStyle next() {
         SwingStyle[] all = values();

@@ -1,5 +1,6 @@
 package com.clearview.gui;
 
+import com.clearview.Blossom;
 import com.clearview.Config;
 import com.clearview.MenuStyle;
 import net.minecraft.client.gui.DrawContext;
@@ -27,7 +28,12 @@ public class ClearTitleScreen extends Screen {
         int y = minimal() ? height / 2 - 40 : height / 2 - 30;
 
         add("Singleplayer", x, y, w, () -> client.setScreen(new SelectWorldScreen(this)));
-        add("Multiplayer", x, y + 24, w, () -> client.setScreen(new MultiplayerScreen(this)));
+        add("Multiplayer", x, y + 24, w, () -> {
+            MultiplayerScreen mp = new MultiplayerScreen(this);
+            client.setScreen(Config.blossomMultiplayer
+                    ? new BlossomLoadingScreen(mp, "Loading servers", Config.blossomMs)
+                    : mp);
+        });
         add("Options", x, y + 48, 98, () -> client.setScreen(new OptionsScreen(this, client.options)));
         add("ClearView", x + 102, y + 48, 98, () -> client.setScreen(new ClearSettingsScreen(this)));
         add("Quit Game", x, y + 76, w, () -> client.scheduleStop());
@@ -49,6 +55,7 @@ public class ClearTitleScreen extends Screen {
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
         float t = (System.currentTimeMillis() % 600000L) / 1000f;
         switch (Config.menuStyle) {
+            case BLOSSOM -> Blossom.drawBackground(context, width, height);
             case MINIMAL -> context.fill(0, 0, width, height, 0xFF0B0B10);
             case CLASSIC -> context.fillGradient(0, 0, width, height, 0xFF0B1F3A, 0xFF02060F);
             default -> {
@@ -72,7 +79,7 @@ public class ClearTitleScreen extends Screen {
             context.drawTextWithShadow(textRenderer, Text.literal("ClearView"), 40, height / 2 - 62, 0xFFFFFFFF);
         } else {
             context.drawCenteredTextWithShadow(textRenderer, Text.literal("C L E A R V I E W"), width / 2, height / 2 - 62, 0xFFFFFFFF);
-            context.drawCenteredTextWithShadow(textRenderer, Text.literal("fps + visuals"), width / 2, height / 2 - 50, 0xFF99AACC);
+            context.drawCenteredTextWithShadow(textRenderer, Text.literal("fps + visuals"), width / 2, height / 2 - 50, Config.accent.color);
         }
     }
 
